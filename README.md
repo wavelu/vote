@@ -1,0 +1,2 @@
+# vote
+simple vote
