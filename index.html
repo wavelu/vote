@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>区块链数字代币投票系统</title>
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/jedate.css" rel="stylesheet">
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style type="text/css">
+        /* Move down content because we have a fixed navbar that is 3.5rem tall */
+        body {
+            padding-top: 4.5rem;
+        }
+
+        button {
+            cursor: pointer;
+        }
+        span.vt_seq {
+            display: inline-block;
+            width: 10%;
+        }
+        span.vt_addr {
+            display: inline-block;
+            width: 60%;
+        }
+        span.vt_count {
+            display: inline-block;
+            width: 30%;
+        }
+    </style>
+</head>
+<body>
+
+
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+<div class="container">
+    <div class="collapse navbar-collapse">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="index.html">投票<span class="sr-only">(current)</span></a>
+            <!--li class="nav-item">
+                <a class="nav-link" href="token.html">加密数字代币</a>
+            </li-->
+            <!--li class="nav-item">
+                <a class="nav-link" href="#">区块浏览器</a>
+            </li-->
+        </ul>
+        <!--form class="form-inline my-2 my-lg-0">
+          <input class="form-control mr-sm-2" type="text" placeholder="请输入查询内容" aria-label="Search">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">搜索</button>
+        </form-->
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="help.html">帮助</a>
+            </li>
+        </ul>
+    </div>
+	</div>
+</nav>
+
+
+<div class="container">
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="alert-heading">基于区块链数字代币的投票系统</h4>
+        <p style="text-indent:2em;">
+            区块链智能合约数字代币投票系统是采用区块链智能合约技术开发的一种新型的业务系统。区块链具有公开、透明、不可篡改、分布式等等特点，而智能合约可以在信任平台上提供可扩展的编程能力。在此基础上，投票系统充分利用了两者优势，结合加密数字代币，能够充分发挥股权投资者在企业重大决策上的权利使用。</p>
+    </div>
+
+    <div id="pmessage" class="alert alert-success alert-dismissible fade show d-none" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <p><strong>执行成功</strong> 成功写入一个区块后，刷新页面即可看到更新后的内容</p>
+    </div>
+    <div id="plist" class="d-none">
+        <!-- Example row of columns -->
+        <div id="proposalsRow" class="card-columns">
+            <!-- Proposals Load Here -->
+        </div>
+        <div class="row justify-content-center" style="padding-top: 1.5rem;padding-bottom: 1.5rem;">
+            <div class="col-md-4 text-center">
+                <button class="btn btn-primary btn-lg pps_ui_new">发起新提案</button>
+            </div>
+        </div>
+    </div>
+    <div id="pnew" class="d-none">
+        <form>
+            <div class="card">
+                <div class="card-header"><span>发起新的提案</span></div>
+                <div class="card-body form-group">
+                    <h6 class="card-title">
+                        <span>提案名称：</span>
+                        <span><input id="new_name" type="text" name="proposal_name"
+                                     placeholder="proposal name" value="" size="32"/></span></h6>
+                    <h6 class="card-title">
+                        <span>代币地址：</span>
+                        <span><input id="new_token_addr" size="40" type="text" name="proposal_token_addr"
+                                     value="0x0" readonly
+                                     class="form-control-plaintext"/></span></h6>
+                    <h6 class="card-title">
+                        <span>提案参考链接：</span>
+                        <span><input id="new_refer" type="text" name="proposal_refer"
+                                     value="" size="32"/></span><span>（可选填）</span></h6>
+                    <h6 class="card-title">
+                        <span>最低票数：</span>
+                        <span><input id="new_threshold" type="text" name="proposal_threshold"
+                                     value="10000" size="32"/></span></h6>
+                    <h6 class="card-title">
+                        <span>投票截止时间：</span>
+                        <span><input id="new_deadline" type="datetime" name="proposal_deadline"
+                                     value="2017-09-30" readonly/></span></h6>
+                    <button class="btn btn-primary pps_new_ok">确定</button>&nbsp;<button
+                        class="btn btn-primary pps_new_cancel">取消
+                </button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div id="pdetail" class="d-none">
+        <div class="card">
+            <div class="card-header"><span class="pps_name">提案名称</span></div>
+            <div class="card-body">
+            <button id="pps_going" type="button" class="btn btn-success btn-sm d-none">进行中</button>
+            <button id="pps_closed" type="button" class="btn btn-secondary btn-sm d-none">已结束</button>
+                <!--button type="button" class="btn btn-danger btn-sm">未关闭</button-->
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <div><span>提案编号：</span><span class="pps_id"></span></div>
+                    <div><span>提案发起者：</span><span class="pps_owner"></span></div>
+                    <div><span>提案参考链接：</span><span class="pps_refer"></span></div>
+                    <div><span>投票截止时间：</span><span class="pps_deadline"></span></div>
+                </li>
+                <li class="list-group-item">
+                    <div><span>使用的代币地址：</span><span class="pps_token_addr"></span></div>
+                    <div><span>代币总发行量：</span><span class="pps_token_amount">1000000</span></div></li>
+                <li class="list-group-item">
+                    <div><span>当前总票数：</span><span class="pps_vote_amount"></span></div>
+                    <div><span>最低票数：</span><span class="pps_threshold"></span></div>
+                    <div><span style="display:inline-block;">当前投票进度：</span><span style="width:60%;display:inline-block;">
+                        <div class="progress" >
+  <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
+                        </div></span>
+                    </div></li>
+            </ul>
+            <div class="card-body">
+                <div><span>我的票数：</span><span class="pps_my_votes">0</span></div>
+                <div><span>我的总票数：</span><span class="pps_balance">0</span></div>
+                <div><span>我的可用剩余票数：</span><span class="pps_remain">0</span></div>
+                <div><span>投票：</span><span><input id="pps_new_vote" type="text" name="pps_new_vote"
+                                                  value="0" size="32"/></span>&nbsp;&nbsp;<span><button type="button" class="btn btn-primary pps_vote">投票</button></span></div>
+
+            </div>
+        </div>
+
+        <div class="row justify-content-center" style="padding-top: 1.5rem;padding-bottom: 1.5rem;">
+            <div class="col-md-4 text-center">
+                <button class="btn btn-primary btn-lg pps_ui_back_list">返回提案列表</button>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <ul class="nav nav-tabs card-header-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">投票详情</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush vt_row">
+                </ul>
+                <ul class="list-group list-group-flush vt_head d-none">
+                    <li class="list-group-item"><span class="vt_seq">序号</span><span class="vt_addr">地址</span><span class="vt_count">投票数量</span></li>
+                </ul>
+                <ul class="list-group list-group-flush vt_tpl d-none">
+                    <li class="list-group-item"><span class="vt_seq">序号</span><span class="vt_addr">地址</span><span class="vt_count">投票数量</span></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div><!-- /container -->
+<hr/>
+<footer>
+    <p class="text-center">&copy; 区块链智能合约投融资平台项目组 2017</p>
+</footer>
+
+<div id="proposalTemplate">
+    <div class="card d-none">
+        <div class="card-header"><span class="pps_name">提案名称</span></div>
+        <div class="card-body">
+            <h6 class="card-title"><span>提案编号：</span><span class="pps_id">0</span></h6>
+            <h6 class="card-title"><span>最低票数：</span><span class="pps_threshold">0</span></h6>
+            <h6 class="card-title"><span>当前票数：</span><span class="pps_vote_amount">0</span></h6>
+            <button class="btn btn-primary pps_id" data-id="0">详细信息</button>
+        </div>
+    </div>
+</div>
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<!--script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script-->
+<script src="js/jquery-1.12.4.min.js"></script>
+<script src="js/jquery.jedate.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="js/bootstrap.min.js"></script>
+<!--script src="js/web3.min.js"></script-->
+<script src="/parity-utils/inject.js"></script>
+<script src="js/truffle-contract.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

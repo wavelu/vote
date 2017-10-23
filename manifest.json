@@ -1,0 +1,8 @@
+{
+	"id": "vote",
+	"name": "确权投票",
+	"description": "根据持有的权益多少进行确权投票",
+	"version": "1.0.0",
+	"author": "陆伟峰",
+	"iconUrl": "images/vote.jpg"
+}
