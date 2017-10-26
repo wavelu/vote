@@ -11,9 +11,9 @@
 			"file": "js/app.js",
 			"settings":
 			{
-				"buffer_size": 11686,
+				"buffer_size": 11472,
 				"encoding": "UTF-8",
-				"line_ending": "Unix"
+				"line_ending": "Windows"
 			}
 		}
 	],
@@ -94,7 +94,7 @@
 	],
 	"find":
 	{
-		"height": 41.0
+		"height": 27.0
 	},
 	"find_in_files":
 	{
@@ -132,18 +132,18 @@
 				{
 					"buffer": 0,
 					"file": "js/app.js",
-					"semi_transient": true,
+					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 11686,
+						"buffer_size": 11472,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								3829,
-								3829
+								9285,
+								9285
 							]
 						],
 						"settings":
@@ -153,7 +153,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 2855.0,
+						"translation.y": 2456.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
