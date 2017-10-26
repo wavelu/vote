@@ -146,11 +146,7 @@ App = {
   loadProposalDetailById: function (pId) {
 //    console.log("proposal id = " + pId);
     // TODO: deal error with accounts
-    web3.eth.getAccounts(function (error, accounts) {
-      if (error) {
-        console.log(error);
-      }
-      var account = accounts[0];
+    var account = web3.eth.defaultAccount;
       var pclose = false;
       App.contracts.Coin.deployed().then(function (instance) {
         var coinIst = instance;
@@ -236,7 +232,6 @@ App = {
           });
         });
       });
-    });
   },
   loadProposalDetail: function (event) {
     event.preventDefault();
@@ -256,11 +251,7 @@ App = {
     var pCount = parseInt($('#pps_new_vote').val());
     var pollInstance;
 //    console.log(pId + " , "+pCount);
-    web3.eth.getAccounts(function (error, accounts) {
-      if (error) {
-        console.log(error);
-      }
-      var account = accounts[0];
+    var account = web3.eth.defaultAccount;
       App.contracts.Poll.deployed().then(function (instance) {
         pollInstance = instance;
         return pollInstance.vote(pId, pCount, {from: account});
@@ -274,7 +265,6 @@ App = {
         // set failed message & relaod detail page
         console.log(err.message);
       });
-    });
   },
 
   loadAllProposals: function () {
