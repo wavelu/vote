@@ -12,6 +12,7 @@ function bytes32_to_UTF8(str) {
 App = {
   web3Provider: null,
   contracts: {},
+  defaultAccount: null,
 
   init: function () {
     return App.initWeb3();
@@ -54,7 +55,23 @@ App = {
       App.contracts.Coin.setProvider(App.web3Provider);
       return App.setNewProposalTokenAddr();
     });
-
+	var api = window.parity.api;
+	/*
+	api.subscribe('parity_defaultAccount', (error, accountAddress) => {
+	  if (error) {
+        return console.error(error);
+      }
+      if (accountAddress) {
+        App.defaultAccount = accountAddress;
+      }
+    });*/
+	
+	api.parity.defaultAccount().then((accountAddress) => {
+      App.defaultAccount = accountAddress;
+    }).catch((error) => {
+      console.error(error);
+    });
+	
     return App.bindEvents();
   },
 
@@ -119,11 +136,7 @@ App = {
     var pdeadline = parseInt(Date.parse($('#new_deadline').val())/1000);
     var pollInstance;
     // TODO: deal error with accounts
-    web3.eth.getAccounts(function (error, accounts) {
-      if (error) {
-        console.log(error);
-      }
-      var account = accounts[0];
+    var account = App.defaultAccount;
       App.contracts.Poll.deployed().then(function (instance) {
         pollInstance = instance;
         return pollInstance.createProposal(pname, ptoken, prefer, pthreshold, pdeadline, {from: account});
@@ -134,7 +147,6 @@ App = {
         // set error messagebox
         console.log(err.message);
       });
-    });
     // display message box
     App.loadOpMessage(true, "执行成功", "成功写入一个区块后，刷新页面即可看到更新后的内容!");
 //    $("#pmessage").removeClass('d-none');
@@ -146,7 +158,7 @@ App = {
   loadProposalDetailById: function (pId) {
 //    console.log("proposal id = " + pId);
     // TODO: deal error with accounts
-    var account = web3.eth.defaultAccount;
+    var account = App.defaultAccount;;
       var pclose = false;
       App.contracts.Coin.deployed().then(function (instance) {
         var coinIst = instance;
@@ -251,7 +263,7 @@ App = {
     var pCount = parseInt($('#pps_new_vote').val());
     var pollInstance;
 //    console.log(pId + " , "+pCount);
-    var account = web3.eth.defaultAccount;
+    var account = App.defaultAccount;
       App.contracts.Poll.deployed().then(function (instance) {
         pollInstance = instance;
         return pollInstance.vote(pId, pCount, {from: account});
